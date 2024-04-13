@@ -43,6 +43,6 @@ export interface PokemonTypes {
   stellar: string;
 }
 
-export type PokemonType = "bug" | "water" | "grass" | "dark" | "dragon" | "electric" | "fairy" | "psychic" | "fighting" | "fire" | "flying" | "ghost" | "poison" | "ground" | "rock" | "ice" | "normal" | "steel" | "stellar" | "undefined";
+export type PokemonType = "bug" | "water" | "grass" | "dark" | "dragon" | "electric" | "fairy" | "psychic" | "fighting" | "fire" | "flying" | "ghost" | "poison" | "ground" | "rock" | "ice" | "normal" | "steel" | "stellar";
 
 export default DamageRelationsType;
