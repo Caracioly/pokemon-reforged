@@ -5,8 +5,8 @@ import {
   DamageType,
   PokemonType,
 } from "../types/types";
-import Pokemon from "../types/pokemonType";
 
+import PokemonProps from "../types/pokemonType";
 import pokemonNames from "../utils/pokemonNames.json";
 
 import {
@@ -25,7 +25,7 @@ import { TextField, Autocomplete } from "@mui/material";
 
 export default function Pokemon() {
   const [value, setValue] = useState("");
-  const [pokemon, setPokemon] = useState<Pokemon | undefined>(undefined);
+  const [pokemon, setPokemon] = useState<PokemonProps | undefined>(undefined);
   const [relations, setRelations] = useState<DamageRelationsType | undefined>(
     undefined
   );
@@ -42,7 +42,7 @@ export default function Pokemon() {
       .toLowerCase();
     return fetch(`https://pokeapi.co/api/v2/pokemon/${treatedPokemonName}`)
       .then((response) => response.json())
-      .then((data: Pokemon) => data);
+      .then((data: PokemonProps) => data);
   };
 
   const damageRelations = async (

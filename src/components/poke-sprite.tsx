@@ -1,8 +1,8 @@
-import Pokemon from "@/types/pokemonType";
+import PokemonProps from "@/types/pokemonType";
 import pokeIcon from "@/app/assets/pokeIcon.png"
 
 interface PokeSpriteProps {
-  pokemon: Pokemon | undefined;
+  pokemon: PokemonProps | undefined;
 }
 
 export function PokeSprite({ pokemon }: PokeSpriteProps) {

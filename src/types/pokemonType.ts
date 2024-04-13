@@ -1,4 +1,4 @@
-interface Pokemon {
+interface PokemonProps {
   id: number;
   name: string;
   base_experience: number;
@@ -152,4 +152,4 @@ interface Pokemon {
   }[];
 }
 
-export default Pokemon;
+export default PokemonProps;
