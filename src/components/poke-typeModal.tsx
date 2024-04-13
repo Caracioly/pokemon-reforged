@@ -1,5 +1,3 @@
-import pokemonWeakness from "@/utils/pokemonWeakness.json";
-
 import { PokemonType } from "@/types/types";
 import { PokeType } from "./poke-type";
 
@@ -17,4 +15,3 @@ export function PokeTypeModal({ typeName }: PokeTypeModal) {
   );
 }
 
-("absolute z-50 -translate-y-10 translate-x-10 transform bg-white border border-gray-300 px-4 py-2 rounded-md shadow-md");
