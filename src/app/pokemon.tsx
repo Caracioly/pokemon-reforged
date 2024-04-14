@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "@/app/assets/styles.css";
 import {
   DamageRelationsResponseType,
   DamageRelationsType,
@@ -16,10 +17,14 @@ import {
   PokeNoDamage,
   PokeQuarterDamage,
 } from "@/components/poke-damage";
+
 import { PokeType, typeColors } from "@/components/poke-type";
+
 import { PokeStats } from "@/components/poke-stats";
 import { PokeSprite } from "@/components/poke-sprite";
 import { PokeDetails } from "@/components/poke-details";
+import { PokeToolTip } from "@/components/poke-tooltip";
+import { MdKeyboardDoubleArrowRight } from "react-icons/md";
 
 import { TextField, Autocomplete } from "@mui/material";
 
@@ -29,6 +34,8 @@ export default function Pokemon() {
   const [relations, setRelations] = useState<DamageRelationsType | undefined>(
     undefined
   );
+  const [toggleStatus, setToggleStatus] = useState(false);
+  const [seeMore, setSeeMore] = useState(false);
 
   const fetchPokemon = async (pokemonName: string) => {
     if (!pokemonName) return;
@@ -178,12 +185,13 @@ export default function Pokemon() {
   const selectedPokemonSpeed = pokemon ? pokemon.stats[5].base_stat : 0;
 
   console.log(relations);
+  function handleToggleStatus() {
+    setToggleStatus(!toggleStatus);
+  }
+
   return (
     <div
-      className="p-3 w-full border-8 rounded-md border-black grid gap-1
-      mob:grid-cols-2
-      half:grid-cols-4
-      "
+      className="flex flex-col w-full h-fit justify-start items-center rounded-md border border-black p-1"
       style={{
         background: selectedPokemonFirstType
           ? `linear-gradient(to bottom, 
@@ -192,41 +200,74 @@ export default function Pokemon() {
           : "linear-gradient(to bottom,#900222 10%,#FF7978 100%)",
       }}
     >
-      <div className="flex flex-col w-full justify-center items-center bg-slate-500/50 rounded-md border border-black p-1">
-        <Autocomplete
-          sx={{
-            borderColor: "black",
-            borderWidth: "2px",
-            borderRadius: "0.375rem",
-            marginBottom: "0.25rem",
-            width: "100%",
-          }}
-          color="#000"
-          clearOnEscape
-          size="small"
-          options={pokemonNames}
-          value={value}
-          isOptionEqualToValue={(option, value) =>
-            value ? option === value : true
-          }
-          onChange={(_, newValue) => {
-            setValue(newValue || "");
-            getPokemon(newValue || "");
-          }}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              variant="outlined"
-              sx={{
-                backgroundColor: "white",
-                borderRadius: "0.375rem",
-              }}
-              accessKey="tab"
-            />
-          )}
-        />
-        <PokeSprite pokemon={pokemon} />
-        <div className="h-[48px] w-[50%]">
+      <Autocomplete
+        sx={{
+          borderColor: "black",
+          borderWidth: "2px",
+          borderRadius: "0.375rem",
+          marginBottom: "0.25rem",
+          width: "100%",
+        }}
+        color="#000"
+        clearOnEscape
+        size="small"
+        options={pokemonNames}
+        value={value}
+        isOptionEqualToValue={(option, value) =>
+          value ? option === value : true
+        }
+        onChange={(_, newValue) => {
+          setValue(newValue || "");
+          getPokemon(newValue || "");
+        }}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            variant="outlined"
+            sx={{
+              backgroundColor: "white",
+              borderRadius: "0.375rem",
+            }}
+            accessKey="tab"
+          />
+        )}
+      />
+      <div className="flex w-full relative mt-1">
+        <div className="flex justify-center items-center w-full">
+          <PokeSprite pokemon={pokemon} />
+        </div>
+        <div className="justify-end flex items-center absolute ">
+          <MdKeyboardDoubleArrowRight
+            className="hover:bg-slate-600 rounded-full "
+            onClick={handleToggleStatus}
+            onMouseEnter={() => setSeeMore(true)}
+            onMouseLeave={() => setSeeMore(false)}
+          ></MdKeyboardDoubleArrowRight>
+          {seeMore && <PokeToolTip label="Base Stats" />}
+        </div>
+        {toggleStatus && (
+          <div className="absolute bg-slate-600 rounded-md border-2 border-slate-950 p-1 translate-x-5 z-50">
+            <div className="mb-2 mt-1 p-2">
+              <PokeDetails
+                selectedPokemonHeight={selectedPokemonHeight}
+                selectedPokemonWeight={selectedPokemonWeight}
+              />
+            </div>
+            <div>
+              <PokeStats
+                hp={selectedPokemonHp}
+                atk={selectedPokemonAtk}
+                def={selectedPokemonDef}
+                spAtk={selectedPokemonSpAtk}
+                spDef={selectedPokemonSpDef}
+                speed={selectedPokemonSpeed}
+              />
+            </div>
+          </div>
+        )}
+      </div>
+      <div>
+        <div className="grid grid-flow-row grid-rows-2 w-full mb-2">
           {pokemon?.types[0] && (
             <PokeType
               pokemonType={pokemon?.types[0]?.type.name as PokemonType}
@@ -239,29 +280,15 @@ export default function Pokemon() {
           )}
         </div>
       </div>
-      <div className="flex flex-col w-full items-center justify-around overflow-hidden bg-slate-500/50 rounded-md border border-black p-1">
-        <PokeDetails
-          selectedPokemonHeight={selectedPokemonHeight}
-          selectedPokemonWeight={selectedPokemonWeight}
-        />
-        <PokeStats
-          hp={selectedPokemonHp}
-          atk={selectedPokemonAtk}
-          def={selectedPokemonDef}
-          spAtk={selectedPokemonSpAtk}
-          spDef={selectedPokemonSpDef}
-          speed={selectedPokemonSpeed}
-        />
-      </div>
-      <div className="flex flex-col w-full justify-center items-center font-mono gap-y-1 bg-slate-500/50 rounded-md border border-black p-1">
-        <PokeQuadrupleDamage relations={relations} />
-        <PokeDoubleDamage relations={relations} />
-        <PokeNoDamage relations={relations} />
-      </div>
-      <div className="flex flex-col w-full justify-center items-center font-mono gap-y-1 bg-slate-500/50 rounded-md border border-black p-1">
-        <PokeHalfDamage relations={relations} />
-        <PokeQuarterDamage relations={relations} />
-      </div>
+      {pokemon && (
+        <div className="flex flex-col w-full justify-center items-center font-mono gap-y-1 bg-slate-500/50 rounded-md border border-black p-1">
+          <PokeQuadrupleDamage relations={relations} />
+          <PokeDoubleDamage relations={relations} />
+          <PokeHalfDamage relations={relations} />
+          <PokeQuarterDamage relations={relations} />
+          <PokeNoDamage relations={relations} />
+        </div>
+      )}
     </div>
   );
 }
