@@ -2,7 +2,7 @@ import { useState } from "react";
 import { PokeType } from "@/components/poke-type";
 import { TypeToolTip } from "@/components/poke-tooltip";
 import { PokemonType } from "@/types/types";
-import { FaPlus, FaUndoAlt, FaAngleDown, FaAngleUp } from "react-icons/fa";
+import { FaPlus, FaTrash, FaAngleDown, FaAngleUp } from "react-icons/fa";
 
 const pokemonTypes = [
   "Bug",
@@ -26,8 +26,8 @@ const pokemonTypes = [
 ];
 
 type HeaderProps = {
-  onAddPokemon: () => void;
-  onResetPokemons: () => void;
+  onAddPokemon?: () => void;
+  onResetPokemons?: () => void;
 };
 
 export default function Header({ onAddPokemon, onResetPokemons }: HeaderProps) {
@@ -69,13 +69,13 @@ export default function Header({ onAddPokemon, onResetPokemons }: HeaderProps) {
           hover:cursor-pointer h-full w-full"
             ></FaAngleUp>
           )}
-          <FaUndoAlt
+          <FaTrash
             color="white"
             size={18}
             onClick={onResetPokemons}
             className="hover:bg-slate-950 rounded-full
           hover:cursor-pointer h-full w-full"
-          ></FaUndoAlt>
+          ></FaTrash>
           <FaPlus
             color="white"
             size={18}
