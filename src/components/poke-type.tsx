@@ -76,7 +76,7 @@ export function PokeType({pokemonType }: PokeTypeProps) {
       {pokemonType && (
         <div
           style={{ backgroundColor: typeColors[pokemonType] }}
-          className="flex font-mono rounded-md mt-1 border-2 border-black drop-shadow-md px-1 justify-between relative"
+          className="flex font-mono rounded-md mt-1 border-2 border-black drop-shadow-md px-1 justify-between  "
         >
           {typeIcons[pokemonType]}
           <span className="text-[70%] text-clip overflow-hidden ml-1 text-nowrap">

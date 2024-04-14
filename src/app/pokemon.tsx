@@ -38,6 +38,8 @@ export default function Pokemon() {
       .replace(/\♂/g, "-m")
       .replace(/\./g, "")
       .replace(/\:/g, "")
+      .replace(/\’/g, "")
+      .replace(/\'/g, "")
       .trim()
       .toLowerCase();
     return fetch(`https://pokeapi.co/api/v2/pokemon/${treatedPokemonName}`)

@@ -20,9 +20,9 @@ export function TypeToolTip({
   label,
 }: Record<string, keyof typeof pokemonWeaknesses>) {
   return ( 
-    <div className="absolute z-50">
+    <div className="absolute z-50 screen transform -translate-x-10 w-max">
 
-      {pokemonWeaknesses[label].double_damage_from.length > 0 &&(<div className="text-center bg-yellow-500/90 p-0.5 rounded-md border-2 border-black w-full  overflow-hidden">
+      {pokemonWeaknesses[label].double_damage_from.length > 0 &&(<div className="text-center bg-yellow-500/90 p-0.5 rounded-md border-2 border-black w-full">
         <span className="text-nowrap">Damage 2x</span>
         <div className="grid grid-cols-2 w-full justify-center">
           {pokemonWeaknesses[label].double_damage_from.map((type: Key) => (
