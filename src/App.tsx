@@ -1,16 +1,26 @@
 import { useState } from "react";
 import Header from "./app/header";
 import Pokemon from "./app/pokemon";
+import { FaArrowUp } from "react-icons/fa6";
 
 export default function App() {
   const [pokemonCount, setPokemonCount] = useState(1);
+  const [pokemonList, setPokemonList] = useState<{ index: number }[]>([]);
 
   const addPokemon = () => {
     setPokemonCount((prevCount) => prevCount + 1);
+    setPokemonList([...pokemonList, { index: pokemonCount }]);
   };
 
   const resetPokemons = () => {
     setPokemonCount(1);
+    setPokemonList([]);
+  };
+
+  const removePokemon = (indexToRemove: number) => {
+    setPokemonList(
+      pokemonList.filter((pokemon) => pokemon.index !== indexToRemove)
+    );
   };
 
   return (
@@ -23,11 +33,31 @@ export default function App() {
       md:grid-cols-4
       half:grid-cols-3
       sm:grid-cols-3
-      mob:grid-cols-2"
+      mob:grid-cols-2
+      half:mt-40
+      mob:mt-40
+      sm:mt-10
+      md:mt-10
+      lg:mt-10
+      xl:mt-10
+      2xl:mt-10
+      "
       >
-        {[...Array(pokemonCount)].map((_, index) => (
-          <Pokemon key={index} />
+        {pokemonList.map(({ index }) => (
+          <Pokemon
+            index={index}
+            key={index}
+            handleRemoveCard={() => removePokemon(index)}
+          />
         ))}
+        {pokemonList.length < 1 && (
+          <div className="fixed right-8 flex flex-row">
+            <span className="text-slate-900 font-bold ">
+              Click to add a new pokemon
+            </span>
+            <FaArrowUp className="animate-bounce" color="#0F172A"></FaArrowUp>
+          </div>
+        )}
       </div>
     </main>
   );

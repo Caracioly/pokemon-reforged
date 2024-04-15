@@ -1,5 +1,5 @@
 import PokemonProps from "@/types/pokemonType";
-import pokeIcon from "@/app/assets/pokeIcon.png"
+import pokeIcon from "@/app/assets/pokeIcon.png";
 
 interface PokeSpriteProps {
   pokemon: PokemonProps | undefined;
@@ -15,11 +15,7 @@ export function PokeSprite({ pokemon }: PokeSpriteProps) {
           alt="Pokemon"
         />
       ) : (
-        <img
-          className="size-28 "
-          src={pokeIcon}
-          alt="Pokemon"
-        />
+        <img className="size-28 " src={pokeIcon} alt="Pokemon" />
       )}
     </div>
   );

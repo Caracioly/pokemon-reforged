@@ -7,6 +7,8 @@ import {
   PokemonType,
 } from "../types/types";
 
+import { FaTrash } from "react-icons/fa6";
+
 import PokemonProps from "../types/pokemonType";
 import pokemonNames from "../utils/pokemonNames.json";
 
@@ -28,14 +30,19 @@ import { MdKeyboardDoubleArrowRight } from "react-icons/md";
 
 import { TextField, Autocomplete } from "@mui/material";
 
-export default function Pokemon() {
+type PokemonCardProps = {
+  handleRemoveCard: () => void;
+  index: number;
+};
+
+export default function Pokemon({ handleRemoveCard }: PokemonCardProps) {
   const [value, setValue] = useState("");
   const [pokemon, setPokemon] = useState<PokemonProps | undefined>(undefined);
   const [relations, setRelations] = useState<DamageRelationsType | undefined>(
     undefined
   );
   const [toggleStatus, setToggleStatus] = useState(false);
-  const [seeMore, setSeeMore] = useState(false);
+  const [seeMore] = useState(false);
 
   const fetchPokemon = async (pokemonName: string) => {
     if (!pokemonName) return;
@@ -98,7 +105,7 @@ export default function Pokemon() {
           };
         });
     }
-    console.log(type1Relations, type2Relations);
+    
     const newRelations: DamageRelationsType = {
       quadruple_damage_from: [],
       double_damage_from: [],
@@ -155,17 +162,16 @@ export default function Pokemon() {
       newRelations.half_damage_from = type1Relations.half_damage_from;
       newRelations.no_damage_from = type1Relations.no_damage_from;
     }
-    console.log(newRelations);
+    
     return newRelations;
   };
 
   const getPokemon = async (pokemonName: string) => {
     const pokemonResponse = await fetchPokemon(pokemonName);
     setPokemon(pokemonResponse);
-    console.log(pokemonResponse);
+    
     const pokemonType1 = pokemonResponse?.types[0].type.name;
     const pokemonType2 = pokemonResponse?.types[1]?.type.name;
-    console.log(pokemonType1, pokemonType2);
     const relationsResponse: DamageRelationsType | undefined =
       await damageRelations(pokemonType1, pokemonType2);
     setRelations(relationsResponse);
@@ -184,14 +190,19 @@ export default function Pokemon() {
   const selectedPokemonSpDef = pokemon ? pokemon.stats[4].base_stat : 0;
   const selectedPokemonSpeed = pokemon ? pokemon.stats[5].base_stat : 0;
 
-  console.log(relations);
   function handleToggleStatus() {
     setToggleStatus(!toggleStatus);
   }
 
+  function handleRemove() {
+    setPokemon(undefined);
+    setRelations(undefined);
+    handleRemoveCard();
+  }
+
   return (
     <div
-      className="flex flex-col w-full h-fit justify-start items-center rounded-md border border-black p-1"
+      className="flex flex-col w-full h-max-fit justify-start items-center rounded-md border border-black p-1 drop-shadow-lg shadow-lg shadow-black"
       style={{
         background: selectedPokemonFirstType
           ? `linear-gradient(to bottom, 
@@ -209,6 +220,7 @@ export default function Pokemon() {
           width: "100%",
         }}
         color="#000"
+        disableClearable
         clearOnEscape
         size="small"
         options={pokemonNames}
@@ -237,16 +249,30 @@ export default function Pokemon() {
           <PokeSprite pokemon={pokemon} />
         </div>
         <div className="justify-end flex items-center absolute ">
-          <MdKeyboardDoubleArrowRight
-            className="hover:bg-slate-600 rounded-full "
-            onClick={handleToggleStatus}
-            onMouseEnter={() => setSeeMore(true)}
-            onMouseLeave={() => setSeeMore(false)}
-          ></MdKeyboardDoubleArrowRight>
+          {pokemon && (
+            <MdKeyboardDoubleArrowRight
+              className="hover:bg-slate-600 rounded-full "
+              onClick={handleToggleStatus}
+              // onMouseEnter={() => setSeeMore(true)}
+              // onMouseLeave={() => setSeeMore(false)}
+            ></MdKeyboardDoubleArrowRight>
+          )}
           {seeMore && <PokeToolTip label="Base Stats" />}
         </div>
+        <div className="fixed right-0 mr-2">
+          {pokemon && (
+            <FaTrash
+              className="hover:bg-slate-600 rounded-full "
+              onClick={handleRemove}
+            ></FaTrash>
+          )}
+          {seeMore && <PokeToolTip label="Remove" />}
+        </div>
         {toggleStatus && (
-          <div className="absolute bg-slate-600 rounded-md border-2 border-slate-950 p-1 translate-x-5 z-50">
+          <div
+            className="absolute bg-slate-600 rounded-md border-2 border-slate-950 p-1 translate-x-5 z-50"
+            onMouseLeave={() => setToggleStatus(false)}
+          >
             <div className="mb-2 mt-1 p-2">
               <PokeDetails
                 selectedPokemonHeight={selectedPokemonHeight}
