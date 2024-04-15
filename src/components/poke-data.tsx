@@ -150,22 +150,31 @@ function PokeMove({ move, onClose }: PokeMoveProps) {
           className="absolute end-0 top-0 mt-2 mr-2 hover:cursor-pointer"
           onClick={handleCloseCLick}
         ></FaX>
-        <div className="text-center flex flex-row justify-center gap-2">
-          <span>{name}</span>
-          <PokeType pokemonType={type.toLowerCase() as PokemonType} />
-        </div>
-        <div className="text-center">
-          <span>{desc}</span>
-        </div>
-        <div className="text-center">
-          <span>Damage: {basePower} / {category}</span>
-        </div>
-        <div className="text-center">
-          <span>PP: {pp}</span>
-        </div>
-        <div className="text-center">
-          <span>{`Priority: ${priority}`}</span>
-        </div>
+
+        {name ? (
+          <div>
+            <div className="text-center flex flex-row justify-center gap-2">
+              <span>{name}</span>
+              <PokeType pokemonType={type.toLowerCase() as PokemonType} />
+            </div>
+            <div className="text-center">
+              <span>{desc}</span>
+            </div>
+            <div className="text-center">
+              <span>
+                Damage: {basePower} / {category}
+              </span>
+            </div>
+            <div className="text-center">
+              <span>PP: {pp}</span>
+            </div>
+            <div className="text-center">
+              <span>{`Priority: ${priority}`}</span>
+            </div>
+          </div>
+        ) : (
+          <span>Move not found</span>
+        )}
       </div>
     </div>
   );
