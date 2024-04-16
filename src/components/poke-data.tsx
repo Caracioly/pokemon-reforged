@@ -61,7 +61,7 @@ function PokeHeldItem({ item, onClose }: PokeHeldItemProps) {
     };
   }, []);
   return (
-    <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-50">
+    <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-50 font-mono">
       <div className="relative bg-slate-700/90 border-slate-950 border-2 rounded-md p-4 text-white">
         <FaX
           className="absolute end-0 top-0 mt-2 mr-2 hover:cursor-pointer"
@@ -100,7 +100,7 @@ function PokeAbility({ ability, onClose }: PokeAbilityProps) {
   }, []);
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-50">
+    <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-50 font-mono">
       <div className="relative bg-slate-700/90 border-slate-950 border-2 rounded-md p-4 text-white">
         <FaX
           className="absolute end-0 top-0 mt-2 mr-2 hover:cursor-pointer"
@@ -144,7 +144,7 @@ function PokeMove({ move, onClose }: PokeMoveProps) {
   }, []);
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-50">
+    <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-50 font-mono">
       <div className="relative bg-slate-700/90 border-slate-950 border-2 rounded-md p-4 text-white">
         <FaX
           className="absolute end-0 top-0 mt-2 mr-2 hover:cursor-pointer"

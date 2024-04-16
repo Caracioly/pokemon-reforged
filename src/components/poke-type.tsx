@@ -70,7 +70,7 @@ const typeIcons: Record<keyof typeof typeColors, JSX.Element> = {
   undefined: <FaQuestion className="self-center" size={14} />,
 };
 
-export function PokeType({pokemonType }: PokeTypeProps) {
+export function PokeType({ pokemonType }: PokeTypeProps) {
   return (
     <>
       {pokemonType && (

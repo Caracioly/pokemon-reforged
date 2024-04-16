@@ -34,13 +34,6 @@ export default function App() {
       half:grid-cols-3
       sm:grid-cols-3
       mob:grid-cols-2
-      half:mt-40
-      mob:mt-40
-      sm:mt-10
-      md:mt-10
-      lg:mt-10
-      xl:mt-10
-      2xl:mt-10
       "
       >
         {pokemonList.map(({ index }) => (
@@ -52,10 +45,10 @@ export default function App() {
         ))}
         {pokemonList.length < 1 && (
           <div className="fixed right-8 flex flex-row">
-            <span className="text-slate-900 font-bold ">
+            <span className="text-slate-900 font-bold font-mono mt-1">
               Click to add a new pokemon
             </span>
-            <FaArrowUp className="animate-bounce" color="#0F172A"></FaArrowUp>
+            <FaArrowUp className="animate-bounce mt-1" color="#0F172A"></FaArrowUp>
           </div>
         )}
       </div>

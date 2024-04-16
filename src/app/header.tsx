@@ -4,7 +4,7 @@ import abilityNames from "@/utils/abilityNames.json";
 
 import itemsFiltered from "@/utils/data/itemsFiltered.json";
 import abilityFiltered from "@/utils/data/abilityFiltered.json";
-import moveUnfiltered from "@/utils/data/movesUnfiltered.json"
+import moveUnfiltered from "@/utils/data/movesUnfiltered.json";
 
 import { Move } from "@/components/poke-data";
 
@@ -19,6 +19,7 @@ import {
   FaAngleUp,
   FaSearch,
 } from "react-icons/fa";
+import { HiMenuAlt2 } from "react-icons/hi";
 import { Autocomplete } from "@mui/material";
 import { PokeHeldItem, PokeAbility, PokeMove } from "@/components/poke-data";
 
@@ -58,6 +59,7 @@ export default function Header({ onAddPokemon, onResetPokemons }: HeaderProps) {
   const [itemComponent, setItemComponent] = useState(false);
   const [abilityComponent, setAbilityComponent] = useState(false);
   const [moveComponent, setMoveComponent] = useState(false);
+  const [leftMenuVisible, setLeftMenuVisible] = useState(false);
 
   const handleToolTipToggle = (tooltip: string) => {
     setToolTips((prevState) => ({
@@ -90,19 +92,181 @@ export default function Header({ onAddPokemon, onResetPokemons }: HeaderProps) {
     (abilityItem) => abilityItem.name === ability
   );
 
-  const movesFormated: keyof typeof moveUnfiltered = moves.replace(/\s/g, "").toLowerCase() as keyof typeof moveUnfiltered;
+  const movesFormated: keyof typeof moveUnfiltered = moves
+    .replace(/\s/g, "")
+    .toLowerCase() as keyof typeof moveUnfiltered;
+
+  //className={`rounded-l-md w-28 px-1 bg-slate-900 text-white border-none ${isFocused ? "border border-blue-500" : ""
 
   return (
     <div
-      className="bg-slate-800 py-2 px-8 border-b-4 border-slate-900 fixed w-full top-0 z-30"
+      className="bg-slate-800 py-2 px-8 border-b-4 border-slate-950 fixed w-full top-0 z-30 h-[52px]"
       onMouseLeave={() => setHeaderVisible(false)}
     >
       <div className="w-full flex justify-between">
-        <div className="sm:flex mt-1 half:flex-grow">
-          <Autocomplete // items
+        <HiMenuAlt2
+          className="visible 2sm:hidden mt-1 hover:bg-slate-950 rounded-md"
+          size={25}
+          color="white"
+          onClick={() => setLeftMenuVisible(!leftMenuVisible)}
+        ></HiMenuAlt2>
+        {leftMenuVisible && (
+          <div className="bg-slate-800 rounded-md p-3 absolute left-2 top-14 flex-col flex gap-2 md:hidden z-40">
+            <div className="flex flex-row">
+              <Autocomplete
+                sx={{
+                  "& input:focus": {
+                    outline: "none",
+                  },
+                }}
+                size="small"
+                disableClearable
+                clearOnEscape
+                options={itemsNames}
+                value={heldItem}
+                isOptionEqualToValue={(option, value) =>
+                  value ? option === value : true
+                }
+                onChange={(_, newValue) => {
+                  setHeldItems(newValue || "");
+                }}
+                renderInput={(params) => (
+                  <div ref={params.InputProps.ref}>
+                    <input
+                      {...params.inputProps}
+                      className="rounded-l-md  px-1 p-1 bg-slate-900 text-white text-sm font-mono w-36"
+                      type="text"
+                      placeholder="Held item"
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          handleHeldItemInfo();
+                        }
+                      }}
+                    />
+                  </div>
+                )}
+              />
+              <FaSearch
+                onClick={handleHeldItemInfo}
+                color="white"
+                size={28}
+                className="hover:cursor-pointer rounded-r-md bg-slate-900 mr-1 hover:bg-slate-800
+            p-1"
+              ></FaSearch>
+              {itemComponent && (
+                <PokeHeldItem
+                  item={itemsFiltered[heldItemIndex]}
+                  onClose={handleHeldItemInfo}
+                />
+              )}
+            </div>
+            <div className="flex flex-row">
+              <Autocomplete // moves
+                sx={{
+                  "& input:focus": {
+                    outline: "none",
+                  },
+                }}
+                size="small"
+                disableClearable
+                clearOnEscape
+                options={movesNames}
+                value={moves}
+                isOptionEqualToValue={(option, value) =>
+                  value ? option === value : true
+                }
+                onChange={(_, newValue) => {
+                  setMoves(newValue || "");
+                }}
+                renderInput={(params) => (
+                  <div className="rounded-full" ref={params.InputProps.ref}>
+                    <input
+                      {...params.inputProps}
+                      className="rounded-l-md  px-1 p-1 bg-slate-900 text-white text-sm font-mono w-36"
+                      type="text"
+                      placeholder="Move"
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          handleMoveInfo();
+                        }
+                      }}
+                    />
+                  </div>
+                )}
+              />
+              <FaSearch
+                onClick={handleMoveInfo}
+                color="white"
+                size={28}
+                className="hover:cursor-pointer rounded-r-md bg-slate-900 mr-1 hover:bg-slate-800
+            p-1"
+              ></FaSearch>
+              {moveComponent && (
+                <PokeMove
+                  move={moveUnfiltered[movesFormated] as Move}
+                  onClose={handleMoveInfo}
+                />
+              )}
+            </div>
+            <div className="flex flex-row">
+              <Autocomplete // ability
+                sx={{
+                  "& input:focus": {
+                    outline: "none",
+                  },
+                }}
+                size="small"
+                disableClearable
+                clearOnEscape
+                options={abilityNames}
+                value={ability}
+                isOptionEqualToValue={(option, value) =>
+                  value ? option === value : true
+                }
+                onChange={(_, newValue) => {
+                  setAbility(newValue || "");
+                }}
+                renderInput={(params) => (
+                  <div className="rounded-full" ref={params.InputProps.ref}>
+                    <input
+                      {...params.inputProps}
+                      className="rounded-l-md  px-1 p-1 bg-slate-900 text-white text-sm font-mono w-36"
+                      type="text"
+                      placeholder="Ability"
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          handleAbilityInfo();
+                        }
+                      }}
+                    />
+                  </div>
+                )}
+              />
+              <FaSearch
+                onClick={handleAbilityInfo}
+                color="white"
+                size={28}
+                className="hover:cursor-pointer rounded-r-md bg-slate-900 mr-1 hover:bg-slate-800
+            p-1"
+              ></FaSearch>
+              {abilityComponent && (
+                <PokeAbility
+                  ability={abilityFiltered[abilityIndex]}
+                  onClose={handleAbilityInfo}
+                />
+              )}
+            </div>
+          </div>
+        )}
+        <div className="2sm:flex 2sm:visible mt-1 hidden">
+          <Autocomplete
+            sx={{
+              "& input:focus": {
+                outline: "none",
+              },
+            }}
             size="small"
             disableClearable
-            color="#000"
             clearOnEscape
             options={itemsNames}
             value={heldItem}
@@ -116,18 +280,24 @@ export default function Header({ onAddPokemon, onResetPokemons }: HeaderProps) {
               <div ref={params.InputProps.ref}>
                 <input
                   {...params.inputProps}
-                  className="border-l-2 border-black rounded-l-md w-28 px-1"
+                  className="rounded-l-md  px-1 p-1 bg-slate-900 text-white text-sm font-mono w-36"
                   type="text"
                   placeholder="Held item"
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      handleHeldItemInfo();
+                    }
+                  }}
                 />
               </div>
             )}
           />
           <FaSearch
             onClick={handleHeldItemInfo}
-            color="black"
-            size={24}
-            className="p-1 hover:cursor-pointer rounded-r-md bg-white border-l-black border mr-1"
+            color="white"
+            size={28}
+            className="hover:cursor-pointer rounded-r-md bg-slate-900 mr-1 hover:bg-slate-800
+            p-1"
           ></FaSearch>
           {itemComponent && (
             <PokeHeldItem
@@ -137,9 +307,13 @@ export default function Header({ onAddPokemon, onResetPokemons }: HeaderProps) {
           )}
 
           <Autocomplete // moves
+            sx={{
+              "& input:focus": {
+                outline: "none",
+              },
+            }}
             size="small"
             disableClearable
-            color="#000"
             clearOnEscape
             options={movesNames}
             value={moves}
@@ -153,18 +327,24 @@ export default function Header({ onAddPokemon, onResetPokemons }: HeaderProps) {
               <div className="rounded-full" ref={params.InputProps.ref}>
                 <input
                   {...params.inputProps}
-                  className="border-l-2 border-black rounded-l-md w-28 px-1"
+                  className="rounded-l-md  px-1 p-1 bg-slate-900 text-white text-sm font-mono w-36"
                   type="text"
                   placeholder="Move"
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      handleMoveInfo();
+                    }
+                  }}
                 />
               </div>
             )}
           />
           <FaSearch
             onClick={handleMoveInfo}
-            color="black"
-            size={24}
-            className="p-1 hover:cursor-pointer rounded-r-md bg-white border-l-black border mr-1"
+            color="white"
+            size={28}
+            className="hover:cursor-pointer rounded-r-md bg-slate-900 mr-1 hover:bg-slate-800
+            p-1"
           ></FaSearch>
           {moveComponent && (
             <PokeMove
@@ -174,9 +354,13 @@ export default function Header({ onAddPokemon, onResetPokemons }: HeaderProps) {
           )}
 
           <Autocomplete // ability
+            sx={{
+              "& input:focus": {
+                outline: "none",
+              },
+            }}
             size="small"
             disableClearable
-            color="#000"
             clearOnEscape
             options={abilityNames}
             value={ability}
@@ -190,18 +374,24 @@ export default function Header({ onAddPokemon, onResetPokemons }: HeaderProps) {
               <div className="rounded-full" ref={params.InputProps.ref}>
                 <input
                   {...params.inputProps}
-                  className="border-l-2 border-black rounded-l-md w-28 px-1"
+                  className="rounded-l-md  px-1 p-1 bg-slate-900 text-white text-sm font-mono w-36"
                   type="text"
                   placeholder="Ability"
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      handleAbilityInfo();
+                    }
+                  }}
                 />
               </div>
             )}
           />
           <FaSearch
             onClick={handleAbilityInfo}
-            color="black"
-            size={24}
-            className="p-1 hover:cursor-pointer rounded-r-md bg-white border-l-black border mr-1"
+            color="white"
+            size={28}
+            className="hover:cursor-pointer rounded-r-md bg-slate-900 mr-1 hover:bg-slate-800
+            p-1"
           ></FaSearch>
           {abilityComponent && (
             <PokeAbility
@@ -247,7 +437,7 @@ export default function Header({ onAddPokemon, onResetPokemons }: HeaderProps) {
         </div>
       </div>
       {headerVisible && (
-        <div className="grid items-center justify-center px-1 gap-x-1 grid-cols-3 half:grid-cols-6 md:grid-cols-9 min-md:px-16 mt-2">
+        <div className="grid items-center justify-center px-1 gap-x-1 grid-cols-3 half:grid-cols-6 md:grid-cols-9 min-md:px-16 mt-3 bg-slate-800 rounded-x-md rounded-b-md p-4 border-b-4 border-x-4 border-slate-950 border-t-4">
           {pokemonTypes.map((type) => (
             <div
               key={type}
