@@ -24,12 +24,14 @@ export default function App() {
   };
 
   return (
-    <main>
+    <main
+      className="w-full min-h-screen bg-slate-600"
+    >
       <Header onAddPokemon={addPokemon} onResetPokemons={resetPokemons} />
       <div
-        className="mt-10 pt-4 min-h-screen p-1 w-full bg-slate-600 gap-2 grid 
+        className="mt-2 pb-3 gap-2 grid h-full mx-1
       xl:grid-cols-6
-      lg:grid-cols-5
+      lg:grid-cols-5  
       md:grid-cols-4
       half:grid-cols-3
       sm:grid-cols-3
@@ -48,7 +50,10 @@ export default function App() {
             <span className="text-slate-900 font-bold font-mono mt-1">
               Click to add a new pokemon
             </span>
-            <FaArrowUp className="animate-bounce mt-1" color="#0F172A"></FaArrowUp>
+            <FaArrowUp
+              className="animate-bounce mt-1"
+              color="#0F172A"
+            ></FaArrowUp>
           </div>
         )}
       </div>

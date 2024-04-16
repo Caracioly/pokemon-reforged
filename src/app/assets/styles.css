@@ -12,3 +12,7 @@
 .element {
   animation: animate-bounce 1s infinite;
 }
+
+.body-height {
+  height: calc(100% - 52px);
+}

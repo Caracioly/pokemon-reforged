@@ -13,7 +13,7 @@ export function PokeToolTip({ label, value }: PokeToolTipProps) {
     <div className="absolute z-50 -translate-y-10 translate-x-10 transform bg-white border border-gray-300 px-4 py-2 rounded-md shadow-md">
       {value ? (
         <span className="rounded-md animate-bounce">
-          {`${label}→ ${value}`}
+          {value}
         </span>
       ) : (
         <span className="rounded-md">{`${label}`}</span>

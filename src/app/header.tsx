@@ -99,10 +99,7 @@ export default function Header({ onAddPokemon, onResetPokemons }: HeaderProps) {
   //className={`rounded-l-md w-28 px-1 bg-slate-900 text-white border-none ${isFocused ? "border border-blue-500" : ""
 
   return (
-    <div
-      className="bg-slate-800 py-2 px-8 border-b-4 border-slate-950 fixed w-full top-0 z-30 h-[52px]"
-      onMouseLeave={() => setHeaderVisible(false)}
-    >
+    <div className="bg-slate-800 py-2 px-8 w-full z-30 sticky top-0">
       <div className="w-full flex justify-between">
         <HiMenuAlt2
           className="visible 2sm:hidden mt-1 hover:bg-slate-950 rounded-md"
@@ -437,7 +434,7 @@ export default function Header({ onAddPokemon, onResetPokemons }: HeaderProps) {
         </div>
       </div>
       {headerVisible && (
-        <div className="grid items-center justify-center px-1 gap-x-1 grid-cols-3 half:grid-cols-6 md:grid-cols-9 min-md:px-16 mt-3 bg-slate-800 rounded-x-md rounded-b-md p-4 border-b-4 border-x-4 border-slate-950 border-t-4">
+        <div className="grid items-center justify-center px-1 gap-x-1 grid-cols-3 half:grid-cols-6 md:grid-cols-9 min-md:px-16 mt-3">
           {pokemonTypes.map((type) => (
             <div
               key={type}
