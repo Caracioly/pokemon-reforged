@@ -1,4 +1,4 @@
-# PokéReforged
+# pokemon-reforged
 
 PokéReforged é um site desenvolvido para fornecer informações rápidas e detalhadas sobre os Pokémon, consumindo a API do Pokémon (PokeAPI). O objetivo é permitir que os jogadores consultem rapidamente fraquezas, habilidades, held items e movimentos de Pokémon enquanto jogam seus jogos favoritos da série Pokémon.
 
